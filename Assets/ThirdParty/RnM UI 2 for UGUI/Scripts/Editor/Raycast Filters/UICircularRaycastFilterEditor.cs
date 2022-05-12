@@ -53,10 +53,10 @@ namespace UnityEditor.UI
 			}
 			
 			Handles.color = Color.green;
-			Handles.CircleCap(0,
+			Handles.CircleHandleCap(0,
 			                  filter.transform.position + offset,
 			                  filter.transform.rotation,
-			                  radius);
+			                  radius, EventType.MouseDown);
 		}
 	}
 }

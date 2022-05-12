@@ -1,8 +1,10 @@
-﻿//专门负责显示特效
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//专门负责显示特效
 Shader "Custom/MeteorBlend4" {
-	Properties {
+	Properties{
 		//_Color ("Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		_MainTex("Albedo (RGB)", 2D) = "white" {}
 		_Intensity("Alpha", Range(0,1)) = 1.0
 		_TintColor("Color", Color) = (1,1,1,1)
 		_u("u", float) = 0
@@ -25,49 +27,62 @@ AlphaTest	通道检查的几何体使用该队列。它和Geometry队列不同�
 Transparent	该渲染队列在Geometry和AlphaTest队列后被渲染。任何通道混合的（也就是说，那些不写入深度缓存的Shaders）对象使用该队列，例如玻璃和粒子效果。	3000
 Overlay	该渲染队列是为覆盖物效果服务的。任何最后被渲染的对象使用该队列，例如镜头光晕。	4000
 */
-	SubShader {
-		Tags{ "RenderType" = "Transparent" "Queue" = "Transparent+10" }
-		LOD 100
-		ZWrite Off 
+SubShader{
+	   Tags{ "RenderType" = "Transparent" "Queue" = "Transparent+10" }
+	   LOD 100
+		//ZWrite Off
 		Lighting Off
 		Blend SrcAlpha One
-		//Blend One OneMinusSrcColor  //忽略了透明
-			//Blend OneMinusDstColor One
-		//Blend One One
 		Cull Off
-		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Lambert alpha
+	Pass {
 
-		// Use shader model 3.0 target, to get nicer looking lighting
+		
+		CGPROGRAM
+
+		#pragma vertex vert
+		#pragma fragment frag
 		#pragma target 3.0
 
+		#include "UnityCG.cginc"
+
 		sampler2D _MainTex;
-
-		struct Input {
-			float2 uv_MainTex;
-		};
-
 		float _u;
 		float _v;
 		fixed4 _TintColor;
 		float _Intensity;
-		void surf (Input IN, inout SurfaceOutput  o) {
-			// Albedo comes from a texture tinted by color
 
-			float2 uv2 = float2(IN.uv_MainTex.x, IN.uv_MainTex.y);
-			uv2.x +=  16 * _Time * _u;
-			uv2.y +=  16 * _Time * _v;
+		struct myV2F {
+			float4 pos:SV_POSITION;//http://wiki.unity3d.com/index.php?title=Shader_Code
+			float2 uv    : TEXCOORD0;
+		};
 
-			fixed4 c = tex2D (_MainTex, uv2) * _TintColor;
-			o.Albedo = c.rgb * _Intensity;
-
-			o.Emission = c.rgb * _Intensity;
-			// Metallic and smoothness come from slider variables
-			//o.Alpha = (c.r + c.g + c.b) *_TransVal;
-			o.Alpha = c.a;
+		myV2F vert(appdata_base v) {
+			myV2F v2f;
+			v2f.pos = UnityObjectToClipPos(v.vertex);
+			v2f.uv = v.texcoord;
+			return v2f;
 		}
+
+
+		fixed4 frag(myV2F v2f) : COLOR {
+
+			float2 uv2 = float2(v2f.uv.x, v2f.uv.y);
+			uv2.x += 16 * _Time * _u;
+			uv2.y += 16 * _Time * _v;
+
+			fixed4 c = tex2D(_MainTex, uv2) * _TintColor;
+			//c.rgb = c.rgb * _Intensity;
+
+			//o.Emission = c.rgb * _Intensity;
+
+			//fixed4 c = tex2D(_MainTex, v2f.uv);
+
+			return c;
+		}
+
 		ENDCG
 	}
-	//FallBack "Diffuse" //去掉不要影子，特效都这样的
+
+			//FallBack "Diffuse" //去掉不要影子，特效都这样的
+		}
 }

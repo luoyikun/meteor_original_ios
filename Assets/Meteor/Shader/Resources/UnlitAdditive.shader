@@ -17,7 +17,9 @@ SubShader {
 	
 	Blend SrcAlpha One
 	//Blend SrcAlpha OneMinusSrcAlpha//Í¸Ã÷¶È»ìºÏ
-	Cull Off Lighting Off ZWrite Off
+	Cull Off 
+	Lighting Off 
+	ZWrite Off
 	
 	Pass {  
 		CGPROGRAM

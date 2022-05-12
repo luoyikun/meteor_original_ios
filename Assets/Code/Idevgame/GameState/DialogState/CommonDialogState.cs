@@ -130,7 +130,7 @@ namespace Idevgame.GameState.DialogState {
 
             UnloadGuiOnExit = true;
 
-#if UNITY_2017 || UNITY_5_5 || UNITY_5_6 || UNITY_2020
+#if UNITY_2017 || UNITY_5_5 || UNITY_5_6 || UNITY_2020|| UNITY_2021
             if (Use3DCanvas())
             {
                 if (mRootUI == null)
@@ -228,7 +228,7 @@ namespace Idevgame.GameState.DialogState {
                 return;
             }
 
-#if UNITY_2017 || UNITY_5_5 || UNITY_5_6 || UNITY_2020
+#if UNITY_2017 || UNITY_5_5 || UNITY_5_6 || UNITY_2020 || UNITY_2021
             if (Use3DCanvas())
             {
                 if (mRootUI == null)
@@ -270,7 +270,7 @@ namespace Idevgame.GameState.DialogState {
                     rectTran.anchoredPosition3D = new Vector3(0, 0, GetZ());
             }
 #else
-        mRootUI = GameObject.Find("Anchor");
+            mRootUI = GameObject.Find("Anchor");
         WndObject.transform.parent = mRootUI.transform;
 #endif
             Dialog.transform.localScale = Vector3.one;
@@ -354,7 +354,7 @@ namespace Idevgame.GameState.DialogState {
 
             UnloadGuiOnExit = true;
 
-#if UNITY_2017 || UNITY_5_5 || UNITY_5_6 || UNITY_2020
+#if UNITY_2017 || UNITY_5_5 || UNITY_5_6 || UNITY_2020|| UNITY_2021
             if (Use3DCanvas())
             {
                 if (mRootUI == null)

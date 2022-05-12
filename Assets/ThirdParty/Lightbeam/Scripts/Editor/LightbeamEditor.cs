@@ -166,9 +166,9 @@ public class LightbeamEditor : Editor
 
             // yellow radius handles
             Handles.color = Color.yellow;
-            lightBeam.RadiusTop = Handles.ScaleValueHandle(lightBeam.RadiusTop, rTopPos, Quaternion.identity, rTopSize, Handles.CylinderCap, 2);
-            lightBeam.RadiusBottom = Handles.ScaleValueHandle(lightBeam.RadiusBottom, rBottomPos, Quaternion.identity, rBottomSize, Handles.CylinderCap, 2);
-            lightBeam.Length = Handles.ScaleValueHandle(lightBeam.Length, lengthPos, Quaternion.Euler(Vector3.up), lengthSize, Handles.CubeCap, 0);
+            lightBeam.RadiusTop = Handles.ScaleValueHandle(lightBeam.RadiusTop, rTopPos, Quaternion.identity, rTopSize, Handles.CylinderHandleCap, 2);
+            lightBeam.RadiusBottom = Handles.ScaleValueHandle(lightBeam.RadiusBottom, rBottomPos, Quaternion.identity, rBottomSize, Handles.CylinderHandleCap, 2);
+            lightBeam.Length = Handles.ScaleValueHandle(lightBeam.Length, lengthPos, Quaternion.Euler(Vector3.up), lengthSize, Handles.CubeHandleCap, 0);
 
             if (lightBeam.RadiusTop <= 0.01f)
                 lightBeam.RadiusTop = 0.01f;
